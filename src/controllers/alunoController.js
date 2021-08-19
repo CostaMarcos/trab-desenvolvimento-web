@@ -5,6 +5,18 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     const turma = await aluno.find({});
     return res.send({ aluno });
+
+})
+
+router.post('/cadastro', async(req, res) => {
+    try{
+        const aluno = await aluno.create(req.body);
+
+        return res.status(201).send({ aluno });
+    } catch(err) {
+        console.log(res);
+        return res.status(400).send(err);
+    }
 })
 
 router.patch('/atualizar/:id', async(req, res) =>{
@@ -15,6 +27,7 @@ router.patch('/atualizar/:id', async(req, res) =>{
         return res.status(304).send({ erro: 'Não foi possível atualizar' });
     }
 })
+
 router.delete('/remover/:id', async(req, res)=>{
     try{
         const aluno = await aluno.findOneAndDelete({ _id: req.params.id });
